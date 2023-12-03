@@ -1,16 +1,11 @@
 package com.example.ecommerce.config;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 public class SpringDocConfig {
@@ -18,19 +13,19 @@ public class SpringDocConfig {
     public GroupedOpenApi productApi() {
         return GroupedOpenApi
                 .builder()
+                .group("ecommerce")
                 .pathsToMatch("/**")
                 .build();
     }
 
-    private ApiInfo getApiInfo() {
-        Contact contact = new Contact("Sundeep Chand", "x.com", "facecount.test@gmail.com");
-        return new ApiInfoBuilder()
-                .title("Ecommerce API")
-                .description("Documentation of Ecommerce API")
-                .version("1.0.0")
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/license/LICENSE-2.0")
-                .contact(contact)
-                .build();
+    @Bean
+    public OpenAPI ecommerceOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Ecommerce API")
+                        .description("Documentation of Ecommerce API")
+                        .version("1.0.0")
+                        .license(new License().name("Apache 2.0").url("http://www.apache.org/license/LICENSE-2.0"))
+                );
     }
 }
