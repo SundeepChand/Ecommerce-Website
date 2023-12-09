@@ -1,4 +1,4 @@
-package com.example.ecommerce.common;
+package com.example.ecommerce.common.responses;
 
 import java.time.LocalDateTime;
 

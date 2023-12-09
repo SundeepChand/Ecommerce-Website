@@ -1,6 +1,6 @@
 package com.example.ecommerce.controller;
 
-import com.example.ecommerce.common.ApiResponse;
+import com.example.ecommerce.common.responses.ApiResponse;
 import com.example.ecommerce.models.Category;
 import com.example.ecommerce.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
