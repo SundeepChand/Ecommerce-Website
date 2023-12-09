@@ -13,6 +13,7 @@ public class Product {
 
     private @NotNull String name;
 
+    @Column(name = "image_url")
     private @NotNull String imageURL;
 
     private @NotNull double price;
