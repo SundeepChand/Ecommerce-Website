@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +22,12 @@ public class ProductController {
     @Autowired
     CategoryRepo categoryRepo;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductDto productDto) {
         Optional<Category> category = categoryRepo.findById(productDto.getCategoryId());
 

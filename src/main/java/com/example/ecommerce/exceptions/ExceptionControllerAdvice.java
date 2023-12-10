@@ -29,4 +29,18 @@ public class ExceptionControllerAdvice {
                 new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
+
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public final ResponseEntity<ApiResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(
+                new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(value = WishlistItemNotCreatedException.class)
+    public final ResponseEntity<ApiResponse> handleWishlistItemNotCreatedException(WishlistItemNotCreatedException e) {
+        return new ResponseEntity<>(
+                new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
 }

@@ -3,9 +3,18 @@ package com.example.ecommerce.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserDto {
+    private Integer id;
     private @NotBlank String email;
     private @NotBlank String name;
     private @NotBlank String passwordHash;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

@@ -17,14 +17,14 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Category>> getCategories() {
         return new ResponseEntity<>(
                 categoryService.getCategories(), HttpStatus.OK
         );
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ApiResponse> createCategory(@RequestBody Category category) {
         categoryService.createCategory(category);
         return new ResponseEntity<>(

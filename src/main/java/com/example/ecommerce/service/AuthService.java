@@ -63,6 +63,22 @@ public class AuthService {
         return new SigninResponseDto(true, authToken.getToken());
     }
 
+    private User getUserFromToken(String token) {
+        AuthToken authToken = authTokenRepo.findByToken(token);
+        if (Objects.isNull(authToken) || Objects.isNull(authToken.getUser())) {
+            throw new AuthenticationFailedException("invalid token");
+        }
+        return authToken.getUser();
+    }
+
+    public User authenticate(String token) {
+        if (Objects.isNull(token)) {
+            throw new AuthenticationFailedException("could not verify identity of the user");
+        }
+        token = extractTokenFromAuthHeader(token);
+        return getUserFromToken(token);
+    }
+
     private UserDto getUserDtoFromSignupDto(SignupDto signupDto) {
         UserDto userDto = new UserDto();
         userDto.setName(signupDto.getName());
@@ -83,5 +99,14 @@ public class AuthService {
         md.update(password.getBytes());
         byte[] digest = md.digest();
         return DatatypeConverter.printHexBinary(digest).toUpperCase();
+    }
+
+    private String extractTokenFromAuthHeader(String authToken) {
+        try {
+            authToken = authToken.substring("Bearer ".length());
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("could not authenticate user");
+        }
+        return authToken;
     }
 }
