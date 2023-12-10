@@ -23,6 +23,8 @@ public class AuthToken {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
+    public AuthToken() {}
+
     public AuthToken(User user) {
         this.createdDate = new Date();
         this.token = UUID.randomUUID().toString();

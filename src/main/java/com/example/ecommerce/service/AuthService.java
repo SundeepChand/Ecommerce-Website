@@ -1,7 +1,10 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.dto.UserDto;
+import com.example.ecommerce.dto.auth.SigninRequestDto;
+import com.example.ecommerce.dto.auth.SigninResponseDto;
 import com.example.ecommerce.dto.auth.SignupDto;
+import com.example.ecommerce.exceptions.AuthenticationFailedException;
 import com.example.ecommerce.exceptions.UserNotCreatedException;
 import com.example.ecommerce.models.AuthToken;
 import com.example.ecommerce.models.User;
@@ -33,6 +36,31 @@ public class AuthService {
         User user = new User(getUserDtoFromSignupDto(signupDto));
         userRepo.save(user);
         authTokenRepo.save(new AuthToken(user));
+    }
+
+    public SigninResponseDto signIn(SigninRequestDto signinRequestDto) {
+        User user = userRepo.findByEmail(signinRequestDto.getEmail());
+        if (Objects.isNull(user)) {
+            throw new AuthenticationFailedException("invalid credentials");
+        }
+
+        String hashedPassword = "";
+        try {
+            hashedPassword = hashPassword(signinRequestDto.getPassword());
+        } catch (NoSuchAlgorithmException e) {
+            throw new InternalError("internal server error");
+        }
+
+        if (!hashedPassword.equals(user.getPasswordHash())) {
+            throw new AuthenticationFailedException("invalid credentials");
+        }
+
+        AuthToken authToken = authTokenRepo.findByUser(user);
+        if (Objects.isNull(authToken)) {
+            throw new AuthenticationFailedException("failed to authenticate user");
+        }
+
+        return new SigninResponseDto(true, authToken.getToken());
     }
 
     private UserDto getUserDtoFromSignupDto(SignupDto signupDto) {

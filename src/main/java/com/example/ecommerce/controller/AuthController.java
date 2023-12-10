@@ -1,6 +1,8 @@
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.common.responses.ApiResponse;
+import com.example.ecommerce.dto.auth.SigninRequestDto;
+import com.example.ecommerce.dto.auth.SigninResponseDto;
 import com.example.ecommerce.dto.auth.SignupDto;
 import com.example.ecommerce.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,15 @@ public class AuthController {
         return new ResponseEntity<>(
                 new ApiResponse(true, "successfully created user"),
                 HttpStatus.CREATED
+        );
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<SigninResponseDto> signIn(@RequestBody SigninRequestDto signinDto) {
+        SigninResponseDto signinResponse = authService.signIn(signinDto);
+        return new ResponseEntity<>(
+                signinResponse,
+                HttpStatus.OK
         );
     }
 }

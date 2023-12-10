@@ -15,4 +15,18 @@ public class ExceptionControllerAdvice {
                 new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(value = AuthenticationFailedException.class)
+    public final ResponseEntity<ApiResponse> handleAuthenticationFailedException(AuthenticationFailedException e) {
+        return new ResponseEntity<>(
+                new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(value = InternalError.class)
+    public final ResponseEntity<ApiResponse> handleInternalServerErrorException(InternalError e) {
+        return new ResponseEntity<>(
+                new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
 }
