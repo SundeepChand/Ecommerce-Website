@@ -1,6 +1,7 @@
 package com.example.ecommerce.models;
 
 import com.example.ecommerce.dto.UserDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -18,6 +19,7 @@ public class User {
     private @NotBlank String name;
 
     @Column(name = "password_hash")
+    @JsonIgnore
     private @NotBlank String passwordHash;
 
     public User() {}
