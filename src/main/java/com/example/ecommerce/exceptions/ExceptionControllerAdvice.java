@@ -1,6 +1,7 @@
 package com.example.ecommerce.exceptions;
 
 import com.example.ecommerce.common.responses.ApiResponse;
+import com.stripe.exception.StripeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,6 +40,13 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(value = WishlistItemNotCreatedException.class)
     public final ResponseEntity<ApiResponse> handleWishlistItemNotCreatedException(WishlistItemNotCreatedException e) {
+        return new ResponseEntity<>(
+                new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    @ExceptionHandler(value = StripeException.class)
+    public final ResponseEntity<ApiResponse> handleStripePaymentFailException(StripeException e) {
         return new ResponseEntity<>(
                 new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR
         );
